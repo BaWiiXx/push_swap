@@ -25,6 +25,7 @@ $(NAME) : $(OBJS)
 
 clean: 
 	$(RM) $(OBJS)
+	$(RM) libft/*.o
 fclean: clean
 	$(RM) $(NAME)
 

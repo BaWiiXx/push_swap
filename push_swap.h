@@ -21,6 +21,7 @@ int		*temp_to_stack(char **temp, t_stack *stack);
 int		*ft_normalisation(t_stack *stack);
 int		double_arg(t_stack *stack);
 int		stack_len(int *stack);
+int		check_whitespace(char **str);
 
 // SORT
 void	sa(t_stack *stack);
@@ -39,6 +40,6 @@ void	main_sort(t_stack *stack, int chunk, int size);
 // ERROR
 void	free_temp(char **temp);
 int		free_stack(t_stack *stack);
-void	return_error(void);
+void	return_error(t_stack *stack);
 
 #endif

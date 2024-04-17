@@ -31,20 +31,23 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		return (0);
 	stack.len = 0;
+	if (check_whitespace(argv) == 1)
+		return (write(2, "Error\n", 6));
 	temp = arg_to_temp(argc, argv);
 	if (!temp)
-		return (write(2, "Error.\n", 7));
+		return (write(2, "Error\n", 6));
 	while (temp[stack.len])
 		stack.len++;
 	stack.stack_a = temp_to_stack(temp, &stack);
 	if (!stack.stack_a)
-		return (write(2, "Error.\n", 1));
+		return_error(&stack);
 	if (double_arg(&stack) == 1)
-		return_error();
+		return_error(&stack);
 	stack.stack_b = ft_calloc(sizeof(int), stack.len + 1);
 	stack.stack_a = ft_normalisation((&stack));
 	if (!stack.stack_a || !stack.stack_b)
 		return (0);
 	stack.stack_b[0] = -1;
 	choice_sort(&stack, stack.len);
+	free_stack(&stack);
 }

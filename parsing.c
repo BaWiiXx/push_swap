@@ -40,26 +40,57 @@ static int	check_argument(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if ((str[i] != '+') && (str[i] != '-') && (ft_isdigit(str[i]) == 0))
+			return (1);
+		if (str[i] == '+' && ft_strlen(&str[i]) == 1)
+			return (1);
+		if (str[i] == '-' && ft_strlen(&str[i]) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	check_whitespace(char **str)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		count = 0;
+		while (str[i][j])
 		{
-			if ((str[i] == '+') || (str[i] == '-') || (str[i] == ' ')
-				|| (ft_isdigit(str[i]) != 0))
-				i++;
-			else
-				return (1);
+			if (str[i][j] == 32 || (str[i][j] >= 8 && str[i][j] <= 13))
+				count++;
+			j++;
 		}
+		if (count == j)
+			return (1);
+		i++;
 	}
 	return (0);
 }
 
 static char	**split_str(char **temp, char *str)
 {
-	if (check_argument(str) == 1)
-	{
-		free(str);
-		return (NULL);
-	}
+	int	i;
+
+	i = 0;
 	temp = ft_split(str, ' ');
 	free(str);
+	while (temp[i])
+	{
+		if (check_argument(temp[i]) == 1)
+		{
+			free_temp(temp);
+			return (NULL);
+		}
+		i++;
+	}
 	return (temp);
 }
 
@@ -75,6 +106,8 @@ char	**arg_to_temp(int argc, char **argv)
 	while (i < argc)
 	{
 		size = ft_strlen(argv[i]);
+		if (ft_strlen(argv[i]) == 0)
+			return (0);
 		size += 1;
 		i++;
 	}
@@ -104,7 +137,8 @@ int	*temp_to_stack(char **temp, t_stack *stack)
 		{
 			free_temp(temp);
 			free(stack->stack_a);
-			return(NULL);
+			write(2, "Error\n", 6);
+			exit(1);
 		}
 		stack->stack_a[i] = ft_atoi(temp[i]);
 		i++;

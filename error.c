@@ -13,13 +13,14 @@ void	free_temp(char **temp)
 	free(temp);
 }
 
-void	return_error(void)
+void	return_error(t_stack *stack)
 {
-	write(2, "Error\n", 7);
+	free(stack->stack_a);	
+	write(2, "Error\n", 6);
 	exit(1);
 }
 
-int free_stack(t_stack *stack)
+int	free_stack(t_stack *stack)
 {
 	free(stack->stack_a);
 	free(stack->stack_b);
